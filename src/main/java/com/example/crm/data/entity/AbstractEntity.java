@@ -1,6 +1,11 @@
-package com.example.crm.data;
+package com.example.crm.data.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Version;
 
 @MappedSuperclass
 public abstract class AbstractEntity {
@@ -36,12 +41,14 @@ public abstract class AbstractEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof AbstractEntity that)) {
-            return false; // null or not an AbstractEntity class
+        if (!(obj instanceof AbstractEntity)) {
+            return false; // null or other class
         }
+        AbstractEntity other = (AbstractEntity) obj;
+
         if (getId() != null) {
-            return getId().equals(that.getId());
+            return getId().equals(other.getId());
         }
-        return super.equals(that);
+        return super.equals(other);
     }
 }
