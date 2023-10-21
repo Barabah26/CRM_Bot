@@ -15,9 +15,9 @@ import org.springframework.security.provisioning.UserDetailsManager;
 public class SecurityConfiguration extends VaadinWebSecurity {
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        setLoginView(http, LoginView.class);
+    protected void configure(HttpSecurity https) throws Exception {
+        super.configure(https);
+        setLoginView(https, LoginView.class);
     }
 
 
