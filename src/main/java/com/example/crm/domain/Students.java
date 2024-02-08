@@ -1,54 +1,28 @@
 package com.example.crm.domain;
 
-//@Data
-//@Entity
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.stereotype.Component;
+
+@Entity
+@Table
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Data
 public class Students {
 
-//    @Id
-//    @GeneratedValue
+    @Id
+    @SequenceGenerator(name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY,
+            generator = "user_sequence")
+    private Long telegramId;
     private String fullName;
     private String yearEntry;
     private String statement;
     private String phoneNumber;
     private String group;
 
-    public String getFullName() {
-        return "Повне ім'я";
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getYearEntry() {
-        return "Рік вступу";
-    }
-
-    public void setYearEntry(String yearEntry) {
-        this.yearEntry = yearEntry;
-    }
-
-    public String getStatement() {
-        return "Вид довідки";
-    }
-
-    public void setStatement(String statement) {
-        this.statement = statement;
-    }
-
-    public String getPhoneNumber() {
-        return "Номер телефону";
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getGroup() {
-        return "Група";
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
 }

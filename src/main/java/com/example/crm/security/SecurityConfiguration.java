@@ -5,28 +5,50 @@ import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends VaadinWebSecurity {
 
     @Override
-    protected void configure(HttpSecurity https) throws Exception {
-        super.configure(https);
-        setLoginView(https, LoginView.class);
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(auth -> auth.requestMatchers(new AntPathRequestMatcher("/public/**"))
+                .permitAll());
+
+        super.configure(http);
+
+        setLoginView(http, LoginView.class);
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
+    }
 
+    /**
+     * Demo UserDetailsManager which only provides two hardcoded
+     * in memory users and their roles.
+     * NOTE: This shouldn't be used in real world applications.
+     */
     @Bean
-    UserDetailsManager userDetailsManager(){
-        return new InMemoryUserDetailsManager(
-                User.withUsername("pavlo")
+    public UserDetailsManager userDetailsService() {
+        UserDetails user =
+                User.withUsername("Pavlo")
                         .password("{noop}pavlo1441*")
-                        .roles("USER").build()
-        );
+                        .roles("Admin")
+                        .build();
+        UserDetails admin =
+                User.withUsername("Serhiy")
+                        .password("{noop}serhiy1441*")
+                        .roles("ADMIN")
+                        .build();
+        return new InMemoryUserDetailsManager(user, admin);
     }
 }
